@@ -1,101 +1,116 @@
 import * as React from "react";
 import { Table } from "react-chakra-pagination";
-import { Flex, Avatar, Text, Box, Icon, Button, Heading } from "@chakra-ui/react";
-import { FiTrash2, FiUser } from "react-icons/fi";
+import { Box, Icon, Button, Heading, Spacer, Flex } from "@chakra-ui/react";
+import { FiTrash2, FiUser, FiEdit, FiPlus } from "react-icons/fi";
 import { useState } from "react";
+import { Column } from "../../types/TableList";
+import route from 'next/router'
 
-type User = {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  birthday: string;
-  avatar_url: string;
-};
+interface Props {
+  routeNew: string
+  list: any[]
+  tableColumns: any[]
+  title: string
+  removeButton: boolean
+  editButton: boolean
+}
 
-const users: User[] = [
-  {
-    id: 1,
-    name: "Carlin Gwinn",
-    email: "cgwinn0@buzzfeed.com",
-    phone: "(684) 9842794",
-    birthday: "04/11/2009",
-    avatar_url: "https://robohash.org/assumendanihilodio.png?size=50x50&set=set1"
-  }, {
-    id: 2,
-    name: "Yetta Snape",
-    email: "ysnape1@princeton.edu",
-    phone: "(645) 8617506",
-    birthday: "06/08/1989",
-    avatar_url: "https://robohash.org/liberorationequasi.png?size=50x50&set=set1"
-  }
-];
-
-const TablePagination = () => {
+const TablePagination = (props: Props) => {
 
   const [ page, setPage ] = useState(1);
 
-  const tableData = users.map((user) => ({
-    name: (
-      <Flex align="center" key={user.id}>
-        <Avatar name={user.name} src={user.avatar_url} size="sm" mr="4" />
-        <Text>{user.name}</Text>
-      </Flex>
-    ),
-    email: user.email,
-    phone: user.phone,
-    birthday: user.birthday,
-    action: (
-      <Button
-        colorScheme="gray"
-        onClick={() => console.log("remove user!")}
-        size="sm"
-      >
-        <Icon as={FiTrash2} fontSize="20" />
-      </Button>
-    )
-  }));
+  const onNew = () => {
+    route.push(props.routeNew)
+  }
 
-  const tableColumns = [
-    {
-      Header: "Name",
-      accessor: "name" as const
-    },
-    {
-      Header: "Email",
-      accessor: "email" as const
-    },
-    {
-      Header: "Phone",
-      accessor: "phone" as const
-    },
-    {
-      Header: "Birthday",
-      accessor: "birthday" as const
-    },
-    {
-      Header: "",
-      accessor: "action" as const
-    }
-  ];
+  const onRemove = (item: any) => {
+    console.log(item)
+    //TODO
+  }
+
+  const onEdit = (item: any) => {
+    console.log(item)
+    //TODO
+  }
+
+  const renderAction = (item: any) => {
+    return (
+      <>   
+        {
+          props.editButton ? (
+            <Button
+              colorScheme="gray"
+              onClick={() => onEdit(item)}
+              size="sm">
+              <Icon as={FiEdit} fontSize="20" color={'blue'}/>
+            </Button>
+          ) : null
+        }
+        {
+          props.removeButton ? (
+            <Button
+              colorScheme="gray"
+              onClick={() => onRemove(item)}
+              size="sm">
+              <Icon as={FiTrash2} fontSize="20" color={'red'}/>
+            </Button>
+          ) : null
+        }
+      </>
+    )
+  }
+
+  const tableData = props.list.map(item => {
+    let obj = {}
+
+    props.tableColumns.map((itemCol: Column) => {
+      if(itemCol.nameField == 'active'){
+        obj = { ...obj, [itemCol.nameField]: item[itemCol.nameField] ? 'Sim' : 'Não' }
+      }else if(itemCol.nameField == 'action'){
+        obj = { ...obj, action: (
+          renderAction(item)
+        )}
+      }else{
+        obj = { ...obj, [itemCol.nameField]: item[itemCol.nameField] }
+      }
+    })
+
+    return obj
+  })
 
   return (
     <Box p="12">
-      <Heading size="sm" as="h3">
-        List of Users
-      </Heading>
+      <Flex>
+        <Box p='1'>
+          <Heading size="sm" as="h3">
+            {props.title}
+          </Heading>
+        </Box>
+        <Spacer />
+        <Box p='1'>
+          <Button
+            colorScheme="gray"
+            onClick={() => onNew()}
+            size="sm"
+            color={'white'}
+            bg={'green'}>
+              Novo registro
+            <Icon as={FiPlus} fontSize="20"/>
+          </Button>
+        </Box>
+      </Flex>
 
       <Box mt="6">
         <Table
           colorScheme="blue"
           emptyData={{
             icon: FiUser,
-            text: "Nobody is registered here."
+            text: "Nenhum registro encontrado"
           }}
-          totalRegisters={users.length}
+          totalRegisters={props.list.length}
           page={page}
           onPageChange={(page) => setPage(page)}
-          columns={tableColumns}
+          columns={props.tableColumns}
           data={tableData}
         />
       </Box>

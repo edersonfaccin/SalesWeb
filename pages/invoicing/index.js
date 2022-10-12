@@ -7,10 +7,10 @@ const Index = () => {
     return (
         <MenuDefault firstName={'Inicio'} firstRoute={'/'} secondName={'Faturamento'} secondRoute={'/invoicing'}>
             <SimpleGrid columns={3} spacing={2}>
-                <MenuButtonDashboard label={'Transportadores'} route={'carriers'}/>
-                <MenuButtonDashboard label={'Vendedores'} route={'salers'}/>
-                <MenuButtonDashboard label={'Clientes'} route={'customers'}/>
-                <MenuButtonDashboard label={'Pedidos'} route={'orders'}/>
+                <MenuButtonDashboard label={'Transportadores'} route={'/carriers'}/>
+                <MenuButtonDashboard label={'Vendedores'} route={'/salers'}/>
+                <MenuButtonDashboard label={'Clientes'} route={'/customers'}/>
+                <MenuButtonDashboard label={'Pedidos'} route={'/orders'}/>
             </SimpleGrid>
         </MenuDefault>
     )

@@ -10,11 +10,11 @@ interface Props {
 const MenuButtonDashboard = (props: Props) => {
 
     return (
-        <Center bg='blue.500' height='150px' borderRadius="md" cursor={'pointer'}>
-            <Link href={`/${props.route}`}>
+        <Link href={props.route}>
+            <Center bg='blue.500' height='150px' borderRadius="md" cursor={'pointer'}>
                 <Text fontSize='3xl' color={'white'}>{props.label}</Text>
-            </Link>
-        </Center>
+            </Center>
+        </Link>
     )
 }
 

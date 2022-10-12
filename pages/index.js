@@ -6,10 +6,10 @@ const Index = () => {
     return (
         <MenuDefault firstName={'Inicio'} firstRoute={'/'}>
             <SimpleGrid columns={3} spacing={2}>
-                <MenuButtonDashboard label={'Estoque'} route={'stock'}/>
-                <MenuButtonDashboard label={'Financeiro'} route={'finance'}/>
-                <MenuButtonDashboard label={'Faturamento'} route={'invoicing'}/>
-                <MenuButtonDashboard label={'Fiscal'} route={'fiscal'}/>
+                <MenuButtonDashboard label={'Estoque'} route={'/stock'}/>
+                <MenuButtonDashboard label={'Financeiro'} route={'/finance'}/>
+                <MenuButtonDashboard label={'Faturamento'} route={'/invoicing'}/>
+                <MenuButtonDashboard label={'Fiscal'} route={'/fiscal'}/>
             </SimpleGrid>
         </MenuDefault>
     )

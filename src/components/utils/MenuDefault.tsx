@@ -24,28 +24,36 @@ const LinkItems: Array<LinkItemProps> = [
 
 const renderBreadcrumb = (firstName: string, firstRoute: string, 
   secondName: string, secondRoute: string, 
-  thirthName: string, thirthRoute: string) => {
+  thirthName: string, thirthRoute: string,
+  fourthName: string, fourthRoute: string) => {
 
   return (
     <Breadcrumb spacing='8px' pb={2}>
       {
         firstName && firstRoute ? (
           <BreadcrumbItem isCurrentPage={!secondRoute}>
-            <BreadcrumbLink href={`/${firstRoute}`}>{firstName}</BreadcrumbLink>
+            <BreadcrumbLink href={firstRoute}>{firstName}</BreadcrumbLink>
           </BreadcrumbItem>
         ) : null
       }
       {
         secondName && secondRoute ? (
           <BreadcrumbItem isCurrentPage={!thirthRoute}>
-            <BreadcrumbLink href={`/${secondRoute}`}>{secondName}</BreadcrumbLink>
+            <BreadcrumbLink href={secondRoute}>{secondName}</BreadcrumbLink>
           </BreadcrumbItem>
         ) : null
       }
       {
         thirthName && thirthRoute ? (
           <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink href={`/${thirthRoute}`}>{thirthName}</BreadcrumbLink>
+            <BreadcrumbLink href={thirthRoute}>{thirthName}</BreadcrumbLink>
+          </BreadcrumbItem>
+        ) : null
+      }
+      {
+        fourthName && fourthRoute ? (
+          <BreadcrumbItem isCurrentPage>
+            <BreadcrumbLink href={fourthRoute}>{fourthName}</BreadcrumbLink>
           </BreadcrumbItem>
         ) : null
       }
@@ -79,7 +87,8 @@ const MenuDefault = (props: any) => {
 
       <Box ml={{ base: 10, md: 60 }} p="4">
         { renderBreadcrumb(props?.firstName, props?.firstRoute, 
-          props?.secondName, props?.secondRoute, props?.thirthName, props?.thirthRoute) }
+          props?.secondName, props?.secondRoute, props?.thirthName, props?.thirthRoute,
+          props?.fourthName, props?.fourthRoute) }
         {props.children}
       </Box>
     </Box>
@@ -220,11 +229,10 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             <MenuList
               bg={useColorModeValue('white', 'gray.900')}
               borderColor={useColorModeValue('gray.200', 'gray.700')}>
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing</MenuItem>
+              <MenuItem>Meu perfil</MenuItem>
+              <MenuItem>Configurações</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem>Sair</MenuItem>
             </MenuList>
           </Menu>
         </Flex>
