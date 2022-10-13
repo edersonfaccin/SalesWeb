@@ -10,6 +10,7 @@ import Head from 'next/head'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from '@chakra-ui/react'
 import ForceAuth from './ForceAuth';
 import { titlePage } from '../../utils/Functions';
+import router from 'next/router'
 
 interface LinkItemProps {
   name: string;
@@ -30,33 +31,39 @@ const renderBreadcrumb = (firstName: string, firstRoute: string,
   thirthName: string, thirthRoute: string,
   fourthName: string, fourthRoute: string) => {
 
+  const onRoute = (urlRoute: string) => {
+    router.push({
+      pathname: urlRoute
+    })
+  }
+
   return (
     <Breadcrumb spacing='8px' pb={2}>
       {
         firstName && firstRoute ? (
           <BreadcrumbItem isCurrentPage={!secondRoute}>
-            <BreadcrumbLink href={firstRoute}>{firstName}</BreadcrumbLink>
+            <BreadcrumbLink onClick={() => onRoute(firstRoute)}>{firstName}</BreadcrumbLink>
           </BreadcrumbItem>
         ) : null
       }
       {
         secondName && secondRoute ? (
           <BreadcrumbItem isCurrentPage={!thirthRoute}>
-            <BreadcrumbLink href={secondRoute}>{secondName}</BreadcrumbLink>
+            <BreadcrumbLink onClick={() => onRoute(secondRoute)}>{secondName}</BreadcrumbLink>
           </BreadcrumbItem>
         ) : null
       }
       {
         thirthName && thirthRoute ? (
           <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink href={thirthRoute}>{thirthName}</BreadcrumbLink>
+            <BreadcrumbLink onClick={() => onRoute(thirthRoute)}>{thirthName}</BreadcrumbLink>
           </BreadcrumbItem>
         ) : null
       }
       {
         fourthName && fourthRoute ? (
           <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink href={fourthRoute}>{fourthName}</BreadcrumbLink>
+            <BreadcrumbLink onClick={() => onRoute(fourthRoute)}>{fourthName}</BreadcrumbLink>
           </BreadcrumbItem>
         ) : null
       }

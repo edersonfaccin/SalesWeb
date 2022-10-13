@@ -1,16 +1,16 @@
 import * as yup from 'yup'
 
-export interface IColorModel {
+export interface ICategoryModel {
     id: string,
     name: string,
     active: boolean,
     idcompany: string
 } 
 
-export const colorValidationSchema = yup.object().shape({
+export const categoryValidationSchema = yup.object().shape({
     name: yup
       .string()
-      .required('Nome da cor é obrigatório'),
+      .required('Nome da categoria é obrigatório'),
     active: yup
       .boolean()
       .required()

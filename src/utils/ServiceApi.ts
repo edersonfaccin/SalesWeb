@@ -41,4 +41,41 @@ const postMethod = async(api: string, method?: string, data?: any) => {
     }
 }
 
-export { getMethod, postMethod }
+
+const patchMethod = async(api: string, method?: string, data?: any) => {
+    const url = method ? `${api}/${method}` : api
+
+    try {
+        setDefaultsAxios()
+        
+        const res = await axios.patch(url, data)
+
+        if(res.status == 200 || res.status == 201){
+            return res.data
+        }else{
+            throw new Error(res.data);
+        }
+    } catch (error: any) {
+        throw new Error(error);
+    }
+}
+
+const deleteMethod = async(api: string, method?: string) => {
+    const url = method ? `${api}/${method}` : api
+
+    try {
+        setDefaultsAxios()
+        
+        var res = await axios.delete(url)
+        
+        if(res.status == 200){
+            return null
+        }else{
+            throw new Error(res.data);
+        }
+    } catch (error: any) {
+        throw new Error(error);
+    }
+}
+
+export { getMethod, postMethod, patchMethod, deleteMethod }

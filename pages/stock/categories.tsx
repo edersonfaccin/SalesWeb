@@ -3,10 +3,10 @@ import MenuDefault from '../../src/components/utils/MenuDefault'
 import TablePagination from '../../src/components/utils/TablePagination'
 import useAuthData from '../../src/data/hook/useAuthData';
 import { Column } from '../../src/types/TableList';
-import { colorApi } from '../../src/utils/Environment';
+import { categoryApi } from '../../src/utils/Environment';
 import { getMethod } from '../../src/utils/ServiceApi';
 
-const Colors = () => {
+const Categories = () => {
   
   const { user } = useAuthData()
 
@@ -17,7 +17,7 @@ const Colors = () => {
   }, [user?.iduser])
 
   const retrieveList = () => {
-    getMethod(colorApi, `idcompany/${user?.idcompany}`).then((resp: any=[]) => {
+    getMethod(categoryApi, `idcompany/${user?.idcompany}`).then((resp: any=[]) => {
       setList(resp)
     })
   }
@@ -42,19 +42,19 @@ const Colors = () => {
     <MenuDefault 
       firstName={'Início'} firstRoute={'/'} 
       secondName={'Estoque'} secondRoute={'/stock'}
-      thirthName={'Cores'} thirthRoute={'/stock/colors'}>
+      thirthName={'Categorias'} thirthRoute={'/stock/categories'}>
       <TablePagination 
-        routeNew={'/stock/color'}
+        routeNew={'/stock/category'}
         list={list} 
         tableColumns={tableColumns}
-        title={'Lista de cores'}
+        title={'Lista de categorias'}
         removeButton={true}
         editButton={true}
-        api={colorApi}
+        api={categoryApi}
         retrieve={retrieveList}
       />
     </MenuDefault>
   )
 }
 
-export default Colors
+export default Categories

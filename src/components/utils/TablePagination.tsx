@@ -4,7 +4,11 @@ import { Box, Icon, Button, Heading, Spacer, Flex } from "@chakra-ui/react";
 import { FiTrash2, FiUser, FiEdit, FiPlus } from "react-icons/fi";
 import { useState } from "react";
 import { Column } from "../../types/TableList";
-import route from 'next/router'
+import router from 'next/router'
+import ModalRemove from "./ModalRemove";
+import { deleteMethod } from "../../utils/ServiceApi";
+import { showToast } from '../../utils/Functions'
+import { useToast } from '@chakra-ui/react'
 
 interface Props {
   routeNew: string
@@ -12,25 +16,48 @@ interface Props {
   tableColumns: any[]
   title: string
   removeButton: boolean
-  editButton: boolean
+  editButton: boolean,
+  api: string
+  retrieve: any
 }
 
 const TablePagination = (props: Props) => {
+  const toast = useToast()
 
   const [ page, setPage ] = useState(1);
+  const [ modalRemove, setModalRemove ] = useState(false);
+  const [ idRemove, setIdRemove ] = useState<string>('');
 
   const onNew = () => {
-    route.push(props.routeNew)
+    router.push({
+      pathname: props.routeNew
+    })
   }
 
   const onRemove = (item: any) => {
-    console.log(item)
-    //TODO
+    setIdRemove(item?.id)
+    setModalRemove(true)
+  }
+
+  const onConfirmRemove = () => {
+    deleteMethod(props.api, idRemove).then(_ => {
+      props.retrieve()
+
+      showToast({
+        toast: toast, 
+        status: 'info', 
+        description: 'Registro removido com sucesso'
+      })
+    })
   }
 
   const onEdit = (item: any) => {
-    console.log(item)
-    //TODO
+    router.push({
+      pathname: props.routeNew,
+      query: {
+        id: item.id
+      }
+    })
   }
 
   const renderAction = (item: any) => {
@@ -99,6 +126,12 @@ const TablePagination = (props: Props) => {
           </Button>
         </Box>
       </Flex>
+
+      <ModalRemove 
+        visible={modalRemove} 
+        setVisible={setModalRemove} 
+        onConfirmRemove={onConfirmRemove}
+      />
 
       <Box mt="6">
         <Table
