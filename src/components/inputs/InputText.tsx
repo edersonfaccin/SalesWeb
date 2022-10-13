@@ -27,7 +27,7 @@ const InputText = (props: inputProps) => {
                 width='100%' 
                 size='md' 
                 variant='outline'
-                maxLength={props?.maxLength || 45}
+                maxLength={props?.maxLength || 100}
                 placeholder={props?.placeholder || ''}
                 isDisabled={props?.disabled || false}
                 isReadOnly={props?.readOnly || false}

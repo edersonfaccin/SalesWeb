@@ -6,7 +6,10 @@ import { IconButton, Avatar, Box, CloseButton, Flex, HStack,
 import { FiHome, FiTrendingUp, FiCompass, FiStar,
   FiSettings, FiMenu, FiBell, FiChevronDown } from 'react-icons/fi';
 import { IconType } from 'react-icons';
+import Head from 'next/head'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from '@chakra-ui/react'
+import ForceAuth from './ForceAuth';
+import { titlePage } from '../../utils/Functions';
 
 interface LinkItemProps {
   name: string;
@@ -65,33 +68,40 @@ const MenuDefault = (props: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
-      <SidebarContent
-        onClose={() => onClose}
-        display={{ base: 'none', md: 'block' }}
-      />
-      <Drawer
-        autoFocus={false}
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="full">
-        <DrawerContent>
-          <SidebarContent onClose={onClose} />
-        </DrawerContent>
-      </Drawer>
-      {/* mobilenav */}
-      <MobileNav onOpen={onOpen} />
+    <ForceAuth>
+      <Head>
+        <title>{titlePage()}</title>
+        <link rel="icon" href="favicon.ico" />
+      </Head>
+    
+      <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+        <SidebarContent
+          onClose={() => onClose}
+          display={{ base: 'none', md: 'block' }}
+        />
+        <Drawer
+          autoFocus={false}
+          isOpen={isOpen}
+          placement="left"
+          onClose={onClose}
+          returnFocusOnClose={false}
+          onOverlayClick={onClose}
+          size="full">
+          <DrawerContent>
+            <SidebarContent onClose={onClose} />
+          </DrawerContent>
+        </Drawer>
+        {/* mobilenav */}
+        <MobileNav onOpen={onOpen} />
 
-      <Box ml={{ base: 10, md: 60 }} p="4">
-        { renderBreadcrumb(props?.firstName, props?.firstRoute, 
-          props?.secondName, props?.secondRoute, props?.thirthName, props?.thirthRoute,
-          props?.fourthName, props?.fourthRoute) }
-        {props.children}
+        <Box ml={{ base: 10, md: 60 }} p="4">
+          { renderBreadcrumb(props?.firstName, props?.firstRoute, 
+            props?.secondName, props?.secondRoute, props?.thirthName, props?.thirthRoute,
+            props?.fourthName, props?.fourthRoute) }
+          {props.children}
+        </Box>
       </Box>
-    </Box>
+    </ForceAuth>
   );
 }
 

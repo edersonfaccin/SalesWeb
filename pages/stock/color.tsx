@@ -1,16 +1,99 @@
 import MenuDefault from '../../src/components/utils/MenuDefault'
+import { Formik } from 'formik'
+import { useRouter } from "next/router"
+import { useToast } from '@chakra-ui/react'
+import { Column, FormWithSave, Row } from '../../src/components/utils/Form'
+import { colorValidationSchema, IColorModel } from '../../src/models/IColorModel'
+import InputText from '../../src/components/inputs/InputText'
+import useAuthData from '../../src/data/hook/useAuthData'
+import { useEffect, useState } from 'react'
+import SpinnerDefault from '../../src/components/spinner/SpinnerDefault'
+import { postMethod } from '../../src/utils/ServiceApi'
+import { colorApi } from '../../src/utils/Environment'
+import { showToast } from '../../src/utils/Functions'
 
 const Color = () => {
+  const router = useRouter()
+  const toast = useToast()
+  const { user } = useAuthData()
 
+  const [ data, setData ] = useState<IColorModel>()
+  const [ rendering, setRendering ] = useState<boolean>(true)
+  console.log(user)
+  useEffect(() => {
+    if(router.query?.id && user?.iduser){
+      setRendering(true)
+      //TODO GET DATA
+      setRendering(false)
+    }else{
+      setRendering(true)
+
+      setData({
+        ...data,
+        active: true,
+        idcompany: user?.idcompany,
+        name: ''
+      })
+
+      setTimeout(() => {
+        setRendering(false)
+      }, 1000)
+    }
+  }, [router.query?.id && user?.iduser])
+
+  const onSave = (values: any) => {
+    postMethod(colorApi, '', values).then(_ => {
+      router.back()
+    }).catch(err => {
+      showToast({
+        toast: toast, 
+        status: 'success', 
+        description: err
+      })
+    })
+  }
+
+  if(rendering){
     return (
-      <MenuDefault 
-        firstName={'Início'} firstRoute={'/'} 
-        secondName={'Estoque'} secondRoute={'/stock'}
-        thirthName={'Cores'} thirthRoute={'/stock/colors'}
-        fourthName={'Cor'} fourthRoute={'/stock/color'}>
-        
-      </MenuDefault>
+      <SpinnerDefault />
     )
+  }
+
+  return (
+    <MenuDefault 
+      firstName={'Início'} firstRoute={'/'} 
+      secondName={'Estoque'} secondRoute={'/stock'}
+      thirthName={'Cores'} thirthRoute={'/stock/colors'}
+      fourthName={'Cor'} fourthRoute={'/stock/color'}>
+      
+      <Formik
+        validationSchema={colorValidationSchema}
+        validateOnMount={true}
+        initialValues={data}
+        onSubmit={values => onSave(values)}>
+          {({ handleSubmit, values, errors, touched, setFieldValue }) => {
+            return (
+              <FormWithSave percentWidth={100} onSave={handleSubmit} title={'Cor'}>
+                <Row>
+                  <Column flex={1}>
+                    <InputText 
+                      label={'Nome'} 
+                      type={'text'}
+                      value={values?.name}
+                      onChange={val => {
+                        setFieldValue('name', val)
+                      }}
+                      invalid={errors?.name?.length > 0 && !!touched?.name}
+                      textError={errors?.name?.toString()}
+                    />
+                  </Column>
+                </Row>
+              </FormWithSave>
+            )
+          }}
+      </Formik>  
+    </MenuDefault>
+  )
 }
 
 export default Color
