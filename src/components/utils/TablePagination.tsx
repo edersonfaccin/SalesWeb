@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Table } from "react-chakra-pagination";
 import { Box, Icon, Button, Heading, Spacer, Flex } from "@chakra-ui/react";
-import { FiTrash2, FiUser, FiEdit, FiPlus } from "react-icons/fi";
+import { FiTrash2, FiList, FiEdit, FiPlus } from "react-icons/fi";
 import { useState } from "react";
 import { Column } from "../../types/TableList";
 import router from 'next/router'
@@ -137,7 +137,7 @@ const TablePagination = (props: Props) => {
         <Table
           colorScheme="blue"
           emptyData={{
-            icon: FiUser,
+            icon: FiList,
             text: "Nenhum registro encontrado"
           }}
           totalRegisters={props.list.length}

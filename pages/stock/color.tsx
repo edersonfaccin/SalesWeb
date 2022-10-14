@@ -29,7 +29,7 @@ const Color = () => {
 
         setTimeout(() => {
           setRendering(false)
-        }, 1000);
+        }, 200);
       })
     }else{
       setRendering(true)
@@ -43,7 +43,7 @@ const Color = () => {
 
       setTimeout(() => {
         setRendering(false)
-      }, 1000)
+      }, 200)
     }
   }, [router.query?.id && user?.iduser])
 
