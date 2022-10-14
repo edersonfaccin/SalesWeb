@@ -7,3 +7,4 @@ export const unitApi = `${url}/unit`
 export const bankApi = `${url}/bank`
 export const cfopApi = `${url}/cfop`
 export const countryApi = `${url}/country`
+export const stateApi = `${url}/state`

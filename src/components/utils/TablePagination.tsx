@@ -109,7 +109,13 @@ const TablePagination = (props: Props) => {
           renderAction(item)
         )}
       }else{
-        obj = { ...obj, [itemCol.nameField]: item[itemCol.nameField] }
+        if(itemCol?.subField){
+          let subFields = item[itemCol.nameField]
+
+          obj = { ...obj, [itemCol.nameField]: subFields[itemCol.subField] }
+        }else{
+          obj = { ...obj, [itemCol.nameField]: item[itemCol.nameField] }
+        }
       }
     })
 
