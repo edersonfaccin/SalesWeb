@@ -1,32 +1,43 @@
 import * as React from "react";
+import { useEffect, useState } from "react";
 import { Table } from "react-chakra-pagination";
 import { Box, Icon, Button, Heading, Spacer, Flex } from "@chakra-ui/react";
 import { FiTrash2, FiList, FiEdit, FiPlus } from "react-icons/fi";
-import { useState } from "react";
 import { Column } from "../../types/TableList";
 import router from 'next/router'
 import ModalRemove from "./ModalRemove";
-import { deleteMethod } from "../../utils/ServiceApi";
+import { deleteMethod, getMethod } from "../../utils/ServiceApi";
 import { showToast } from '../../utils/Functions'
 import { useToast } from '@chakra-ui/react'
+import useAuthData from "../../data/hook/useAuthData";
 
 interface Props {
   routeNew: string
-  list: any[]
   tableColumns: any[]
   title: string
   removeButton: boolean
   editButton: boolean,
   api: string
-  retrieve: any
 }
 
 const TablePagination = (props: Props) => {
   const toast = useToast()
+  const { user } = useAuthData()
 
   const [ page, setPage ] = useState(1);
   const [ modalRemove, setModalRemove ] = useState(false);
   const [ idRemove, setIdRemove ] = useState<string>('');
+  const [ list, setList ] = useState<any>([])
+
+  useEffect(() => {
+    retrieveList()
+  }, [user?.iduser])
+
+  const retrieveList = () => {
+    getMethod(props.api, `idcompany/${user?.idcompany}`).then((resp: any=[]) => {
+      setList(resp)
+    })
+  }
 
   const onNew = () => {
     router.push({
@@ -41,7 +52,7 @@ const TablePagination = (props: Props) => {
 
   const onConfirmRemove = () => {
     deleteMethod(props.api, idRemove).then(_ => {
-      props.retrieve()
+      retrieveList()
 
       showToast({
         toast: toast, 
@@ -87,7 +98,7 @@ const TablePagination = (props: Props) => {
     )
   }
 
-  const tableData = props.list.map(item => {
+  const tableData = list.map(item => {
     let obj = {}
 
     props.tableColumns.map((itemCol: Column) => {
@@ -140,7 +151,7 @@ const TablePagination = (props: Props) => {
             icon: FiList,
             text: "Nenhum registro encontrado"
           }}
-          totalRegisters={props.list.length}
+          totalRegisters={list.length}
           page={page}
           onPageChange={(page) => setPage(page)}
           columns={props.tableColumns}

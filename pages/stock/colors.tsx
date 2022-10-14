@@ -1,26 +1,9 @@
-import { useEffect, useState } from 'react';
 import MenuDefault from '../../src/components/utils/MenuDefault'
 import TablePagination from '../../src/components/utils/TablePagination'
-import useAuthData from '../../src/data/hook/useAuthData';
 import { Column } from '../../src/types/TableList';
 import { colorApi } from '../../src/utils/Environment';
-import { getMethod } from '../../src/utils/ServiceApi';
 
 const Colors = () => {
-  
-  const { user } = useAuthData()
-
-  const [ list, setList ] = useState<any>([])
-
-  useEffect(() => {
-    retrieveList()
-  }, [user?.iduser])
-
-  const retrieveList = () => {
-    getMethod(colorApi, `idcompany/${user?.idcompany}`).then((resp: any=[]) => {
-      setList(resp)
-    })
-  }
 
   const tableColumns: Column[] = [
     {
@@ -45,13 +28,11 @@ const Colors = () => {
       thirthName={'Cores'} thirthRoute={'/stock/colors'}>
       <TablePagination 
         routeNew={'/stock/color'}
-        list={list} 
         tableColumns={tableColumns}
         title={'Lista de cores'}
         removeButton={true}
         editButton={true}
         api={colorApi}
-        retrieve={retrieveList}
       />
     </MenuDefault>
   )
