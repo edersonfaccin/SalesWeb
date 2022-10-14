@@ -3,13 +3,13 @@ import { Formik } from 'formik'
 import { useRouter } from "next/router"
 import { useToast } from '@chakra-ui/react'
 import { Column, FormWithSave, Row } from '../../src/components/utils/Form'
-import { colorValidationSchema, IColorModel } from '../../src/models/IColorModel'
+import { unitValidationSchema, IUnitModel } from '../../src/models/IUnitModel'
 import InputText from '../../src/components/inputs/InputText'
 import useAuthData from '../../src/data/hook/useAuthData'
 import { useEffect, useState } from 'react'
 import SpinnerDefault from '../../src/components/spinner/SpinnerDefault'
 import { getMethod, postMethod, patchMethod } from '../../src/utils/ServiceApi'
-import { colorApi } from '../../src/utils/Environment'
+import { unitApi } from '../../src/utils/Environment'
 import { showToast } from '../../src/utils/Functions'
 import InputCheckBox from '../../src/components/inputs/InputCheckBox'
 
@@ -18,14 +18,14 @@ const Color = () => {
   const toast = useToast()
   const { user } = useAuthData()
 
-  const [ data, setData ] = useState<IColorModel>()
+  const [ data, setData ] = useState<IUnitModel>()
   const [ rendering, setRendering ] = useState<boolean>(true)
 
   useEffect(() => {
     if(router.query?.id && user?.iduser){
       setRendering(true)
       
-      getMethod(colorApi, `${router.query?.id}`).then((resp: any) => {
+      getMethod(unitApi, `${router.query?.id}`).then((resp: any) => {
         setData(resp)
 
         setTimeout(() => {
@@ -39,6 +39,7 @@ const Color = () => {
         ...data,
         active: true,
         idcompany: user?.idcompany,
+        initials: '',
         name: ''
       })
 
@@ -50,7 +51,7 @@ const Color = () => {
 
   const onSave = (values: any) => {
     if(router.query?.id){
-      patchMethod(colorApi, router.query?.id.toString(), values).then(_ => {
+      patchMethod(unitApi, router.query?.id.toString(), values).then(_ => {
         router.back()
       }).catch(err => {
         showToast({
@@ -60,7 +61,7 @@ const Color = () => {
         })
       })
     }else{
-      postMethod(colorApi, '', values).then(_ => {
+      postMethod(unitApi, '', values).then(_ => {
         router.back()
       }).catch(err => {
         showToast({
@@ -82,11 +83,11 @@ const Color = () => {
     <MenuDefault 
       firstName={'Início'} firstRoute={'/'} 
       secondName={'Estoque'} secondRoute={'/stock'}
-      thirthName={'Cores'} thirthRoute={'/stock/colors'}
-      fourthName={'Cor'} fourthRoute={'/stock/color'}>
+      thirthName={'Unidades'} thirthRoute={'/stock/units'}
+      fourthName={'Unidade'} fourthRoute={'/stock/unit'}>
       
       <Formik
-        validationSchema={colorValidationSchema}
+        validationSchema={unitValidationSchema}
         validateOnMount={true}
         initialValues={data}
         onSubmit={values => onSave(values)}>
@@ -103,7 +104,7 @@ const Color = () => {
                   />
                 </Row>
                 <Row>
-                  <Column flex={1}>
+                  <Column flex={0.6}>
                     <InputText 
                       label={'Nome'} 
                       type={'text'}
@@ -113,6 +114,18 @@ const Color = () => {
                       }}
                       invalid={errors?.name?.length > 0 && !!touched?.name}
                       textError={errors?.name?.toString()}
+                    />
+                  </Column>
+                  <Column flex={0.4}>
+                    <InputText 
+                      label={'Sigla'} 
+                      type={'text'}
+                      value={values?.initials}
+                      onChange={val => {
+                        setFieldValue('initials', val)
+                      }}
+                      invalid={errors?.initials?.length > 0 && !!touched?.initials}
+                      textError={errors?.initials?.toString()}
                     />
                   </Column>
                 </Row>

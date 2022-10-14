@@ -7,7 +7,7 @@ import { FiHome, FiTrendingUp, FiCompass, FiStar,
   FiSettings, FiMenu, FiBell, FiChevronDown } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import Head from 'next/head'
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from '@chakra-ui/react'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react'
 import ForceAuth from './ForceAuth';
 import { titlePage } from '../../utils/Functions';
 import router from 'next/router'
@@ -23,19 +23,20 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Estoque', icon: FiTrendingUp, route: '/stock' },
   { name: 'Financeiro', icon: FiCompass, route: '/finance' },
   { name: 'Faturamento', icon: FiStar, route: '/invoicing' },
+  { name: 'Fiscal', icon: FiStar, route: '/fiscal' },
   { name: 'Usuários', icon: FiSettings, route: '/users' },
 ];
+
+const onRoute = (urlRoute: string) => {
+  router.push({
+    pathname: urlRoute
+  })
+}
 
 const renderBreadcrumb = (firstName: string, firstRoute: string, 
   secondName: string, secondRoute: string, 
   thirthName: string, thirthRoute: string,
   fourthName: string, fourthRoute: string) => {
-
-  const onRoute = (urlRoute: string) => {
-    router.push({
-      pathname: urlRoute
-    })
-  }
 
   return (
     <Breadcrumb spacing='8px' pb={2}>
@@ -134,7 +135,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.route} icon={link.icon}>
+        <NavItem key={link.route} icon={link.icon} onClick={() => onRoute(link.route)}>
           {link.name}
         </NavItem>
       ))}

@@ -1,9 +1,9 @@
 import MenuDefault from '../../src/components/utils/MenuDefault'
 import TablePagination from '../../src/components/utils/TablePagination'
 import { Column } from '../../src/types/TableList';
-import { unitApi } from '../../src/utils/Environment';
+import { cfopApi } from '../../src/utils/Environment';
 
-const Unit = () => {
+const Cfops = () => {
 
   const tableColumns: Column[] = [
     {
@@ -11,9 +11,9 @@ const Unit = () => {
       accessor: 'name' as const,
       nameField: 'name'
     }, {
-      Header: 'Sigla',
-      accessor: 'initials' as const,
-      nameField: 'initials'
+      Header: 'Number',
+      accessor: 'ipi_percent' as const,
+      nameField: 'ipi_percent'
     }, {
       Header: 'Ativo',
       accessor: 'active' as const,
@@ -28,18 +28,18 @@ const Unit = () => {
   return (
     <MenuDefault 
       firstName={'Início'} firstRoute={'/'} 
-      secondName={'Estoque'} secondRoute={'/stock'}
-      thirthName={'Unidades'} thirthRoute={'/stock/units'}>
+      secondName={'Fiscal'} secondRoute={'/fiscal'}
+      thirthName={'CFOPs'} thirthRoute={'/fiscal/cfops'}>
       <TablePagination 
-        routeNew={'/stock/unit'}
+        routeNew={'/fiscal/cfop'}
         tableColumns={tableColumns}
-        title={'Lista de unidades'}
+        title={'Lista de CFOPs'}
         removeButton={true}
         editButton={true}
-        api={unitApi}
+        api={cfopApi}
       />
     </MenuDefault>
   )
 }
 
-export default Unit
+export default Cfops

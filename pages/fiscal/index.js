@@ -7,11 +7,11 @@ const Index = () => {
     return (
         <MenuDefault firstName={'Inicio'} firstRoute={'/'} secondName={'Fiscal'} secondRoute={'/fiscal'}>
             <SimpleGrid columns={3} spacing={2}>
-                <MenuButtonDashboard label={'Bancos'} route={'/banks'}/>
-                <MenuButtonDashboard label={'CFOPs'} route={'/cfops'}/>
-                <MenuButtonDashboard label={'Paises'} route={'/countries'}/>
-                <MenuButtonDashboard label={'Estados'} route={'/states'}/>
-                <MenuButtonDashboard label={'Cidades'} route={'/cities'}/>
+                <MenuButtonDashboard label={'Bancos'} route={'/fiscal/banks'}/>
+                <MenuButtonDashboard label={'CFOPs'} route={'/fiscal/cfops'}/>
+                <MenuButtonDashboard label={'Paises'} route={'/fiscal/countries'}/>
+                <MenuButtonDashboard label={'Estados'} route={'/fiscal/states'}/>
+                <MenuButtonDashboard label={'Cidades'} route={'/fiscal/cities'}/>
             </SimpleGrid>
         </MenuDefault>
     )

@@ -1,19 +1,19 @@
 import MenuDefault from '../../src/components/utils/MenuDefault'
 import TablePagination from '../../src/components/utils/TablePagination'
 import { Column } from '../../src/types/TableList';
-import { unitApi } from '../../src/utils/Environment';
+import { bankApi } from '../../src/utils/Environment';
 
-const Unit = () => {
+const Banks = () => {
 
   const tableColumns: Column[] = [
     {
+      Header: 'Number',
+      accessor: 'bank_number' as const,
+      nameField: 'bank_number'
+    }, {
       Header: 'Nome',
       accessor: 'name' as const,
       nameField: 'name'
-    }, {
-      Header: 'Sigla',
-      accessor: 'initials' as const,
-      nameField: 'initials'
     }, {
       Header: 'Ativo',
       accessor: 'active' as const,
@@ -28,18 +28,18 @@ const Unit = () => {
   return (
     <MenuDefault 
       firstName={'Início'} firstRoute={'/'} 
-      secondName={'Estoque'} secondRoute={'/stock'}
-      thirthName={'Unidades'} thirthRoute={'/stock/units'}>
+      secondName={'Fiscal'} secondRoute={'/fiscal'}
+      thirthName={'Bancos'} thirthRoute={'/fiscal/banks'}>
       <TablePagination 
-        routeNew={'/stock/unit'}
+        routeNew={'/fiscal/bank'}
         tableColumns={tableColumns}
-        title={'Lista de unidades'}
+        title={'Lista de bancos'}
         removeButton={true}
         editButton={true}
-        api={unitApi}
+        api={bankApi}
       />
     </MenuDefault>
   )
 }
 
-export default Unit
+export default Banks

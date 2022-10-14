@@ -3,29 +3,29 @@ import { Formik } from 'formik'
 import { useRouter } from "next/router"
 import { useToast } from '@chakra-ui/react'
 import { Column, FormWithSave, Row } from '../../src/components/utils/Form'
-import { colorValidationSchema, IColorModel } from '../../src/models/IColorModel'
+import { countryValidationSchema, ICountryModel } from '../../src/models/ICountryModel'
 import InputText from '../../src/components/inputs/InputText'
 import useAuthData from '../../src/data/hook/useAuthData'
 import { useEffect, useState } from 'react'
 import SpinnerDefault from '../../src/components/spinner/SpinnerDefault'
 import { getMethod, postMethod, patchMethod } from '../../src/utils/ServiceApi'
-import { colorApi } from '../../src/utils/Environment'
+import { countryApi } from '../../src/utils/Environment'
 import { showToast } from '../../src/utils/Functions'
 import InputCheckBox from '../../src/components/inputs/InputCheckBox'
 
-const Color = () => {
+const Country = () => {
   const router = useRouter()
   const toast = useToast()
   const { user } = useAuthData()
 
-  const [ data, setData ] = useState<IColorModel>()
+  const [ data, setData ] = useState<ICountryModel>()
   const [ rendering, setRendering ] = useState<boolean>(true)
 
   useEffect(() => {
     if(router.query?.id && user?.iduser){
       setRendering(true)
       
-      getMethod(colorApi, `${router.query?.id}`).then((resp: any) => {
+      getMethod(countryApi, `${router.query?.id}`).then((resp: any) => {
         setData(resp)
 
         setTimeout(() => {
@@ -50,7 +50,7 @@ const Color = () => {
 
   const onSave = (values: any) => {
     if(router.query?.id){
-      patchMethod(colorApi, router.query?.id.toString(), values).then(_ => {
+      patchMethod(countryApi, router.query?.id.toString(), values).then(_ => {
         router.back()
       }).catch(err => {
         showToast({
@@ -60,7 +60,7 @@ const Color = () => {
         })
       })
     }else{
-      postMethod(colorApi, '', values).then(_ => {
+      postMethod(countryApi, '', values).then(_ => {
         router.back()
       }).catch(err => {
         showToast({
@@ -81,18 +81,18 @@ const Color = () => {
   return (
     <MenuDefault 
       firstName={'Início'} firstRoute={'/'} 
-      secondName={'Estoque'} secondRoute={'/stock'}
-      thirthName={'Cores'} thirthRoute={'/stock/colors'}
-      fourthName={'Cor'} fourthRoute={'/stock/color'}>
+      secondName={'Fiscal'} secondRoute={'/fiscal'}
+      thirthName={'Países'} thirthRoute={'/fiscal/countries'}
+      fourthName={'Pais'} fourthRoute={'/fiscal/country'}>
       
       <Formik
-        validationSchema={colorValidationSchema}
+        validationSchema={countryValidationSchema}
         validateOnMount={true}
         initialValues={data}
         onSubmit={values => onSave(values)}>
           {({ handleSubmit, values, errors, touched, setFieldValue }) => {
             return (
-              <FormWithSave percentWidth={100} onSave={handleSubmit} title={'Cor'}>
+              <FormWithSave percentWidth={100} onSave={handleSubmit} title={'País'}>
                 <Row>
                   <InputCheckBox 
                     label='Ativo'
@@ -124,4 +124,4 @@ const Color = () => {
   )
 }
 
-export default Color
+export default Country

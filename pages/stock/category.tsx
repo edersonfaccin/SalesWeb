@@ -11,6 +11,7 @@ import SpinnerDefault from '../../src/components/spinner/SpinnerDefault'
 import { getMethod, postMethod, patchMethod } from '../../src/utils/ServiceApi'
 import { categoryApi } from '../../src/utils/Environment'
 import { showToast } from '../../src/utils/Functions'
+import InputCheckBox from '../../src/components/inputs/InputCheckBox'
 
 const Category = () => {
   const router = useRouter()
@@ -92,6 +93,15 @@ const Category = () => {
           {({ handleSubmit, values, errors, touched, setFieldValue }) => {
             return (
               <FormWithSave percentWidth={100} onSave={handleSubmit} title={'Categoria'}>
+                <Row>
+                  <InputCheckBox 
+                    label='Ativo'
+                    value={values?.active}
+                    onChange={val => {
+                      setFieldValue('active', val)
+                    }}
+                  />
+                </Row>
                 <Row>
                   <Column flex={1}>
                     <InputText 

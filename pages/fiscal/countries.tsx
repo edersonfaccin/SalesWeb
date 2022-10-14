@@ -1,19 +1,15 @@
 import MenuDefault from '../../src/components/utils/MenuDefault'
 import TablePagination from '../../src/components/utils/TablePagination'
 import { Column } from '../../src/types/TableList';
-import { unitApi } from '../../src/utils/Environment';
+import { countryApi } from '../../src/utils/Environment';
 
-const Unit = () => {
+const Countries = () => {
 
   const tableColumns: Column[] = [
     {
       Header: 'Nome',
       accessor: 'name' as const,
       nameField: 'name'
-    }, {
-      Header: 'Sigla',
-      accessor: 'initials' as const,
-      nameField: 'initials'
     }, {
       Header: 'Ativo',
       accessor: 'active' as const,
@@ -28,18 +24,18 @@ const Unit = () => {
   return (
     <MenuDefault 
       firstName={'Início'} firstRoute={'/'} 
-      secondName={'Estoque'} secondRoute={'/stock'}
-      thirthName={'Unidades'} thirthRoute={'/stock/units'}>
+      secondName={'Fiscal'} secondRoute={'/fiscal'}
+      thirthName={'Países'} thirthRoute={'/fiscal/countries'}>
       <TablePagination 
-        routeNew={'/stock/unit'}
+        routeNew={'/fiscal/country'}
         tableColumns={tableColumns}
-        title={'Lista de unidades'}
+        title={'Lista de países'}
         removeButton={true}
         editButton={true}
-        api={unitApi}
+        api={countryApi}
       />
     </MenuDefault>
   )
 }
 
-export default Unit
+export default Countries
