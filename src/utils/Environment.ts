@@ -8,3 +8,5 @@ export const bankApi = `${url}/bank`
 export const cfopApi = `${url}/cfop`
 export const countryApi = `${url}/country`
 export const stateApi = `${url}/state`
+export const cityApi = `${url}/city`
+export const icmsTableApi = `${url}/icms_table`

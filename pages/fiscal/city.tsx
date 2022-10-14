@@ -3,30 +3,30 @@ import { Formik } from 'formik'
 import { useRouter } from "next/router"
 import { useToast } from '@chakra-ui/react'
 import { Column, FormWithSave, Row } from '../../src/components/utils/Form'
-import { stateValidationSchema, IStateModel } from '../../src/models/IStateModel'
+import { cityValidationSchema, ICityModel } from '../../src/models/ICityModel'
 import InputText from '../../src/components/inputs/InputText'
 import useAuthData from '../../src/data/hook/useAuthData'
 import { useEffect, useState } from 'react'
 import SpinnerDefault from '../../src/components/spinner/SpinnerDefault'
 import { getMethod, postMethod, patchMethod } from '../../src/utils/ServiceApi'
-import { countryApi, stateApi } from '../../src/utils/Environment'
+import { cityApi, stateApi } from '../../src/utils/Environment'
 import { showToast } from '../../src/utils/Functions'
 import InputCheckBox from '../../src/components/inputs/InputCheckBox'
 import InputSelect from '../../src/components/inputs/InputSelect'
 
-const State = () => {
+const City = () => {
   const router = useRouter()
   const toast = useToast()
   const { user } = useAuthData()
 
-  const [ data, setData ] = useState<IStateModel>()
+  const [ data, setData ] = useState<ICityModel>()
   const [ rendering, setRendering ] = useState<boolean>(true)
 
   useEffect(() => {
     if(router.query?.id && user?.iduser){
       setRendering(true)
       
-      getMethod(stateApi, `${router.query?.id}`).then((resp: any) => {
+      getMethod(cityApi, `${router.query?.id}`).then((resp: any) => {
         setData(resp)
 
         setTimeout(() => {
@@ -39,8 +39,7 @@ const State = () => {
       setData({
         ...data,
         active: true,
-        uf: '',
-        idcountry: '',
+        idstate: '',
         idcompany: user?.idcompany,
         name: ''
       })
@@ -53,7 +52,7 @@ const State = () => {
 
   const onSave = (values: any) => {
     if(router.query?.id){
-      patchMethod(stateApi, router.query?.id.toString(), values).then(_ => {
+      patchMethod(cityApi, router.query?.id.toString(), values).then(_ => {
         router.back()
       }).catch(err => {
         showToast({
@@ -63,7 +62,7 @@ const State = () => {
         })
       })
     }else{
-      postMethod(stateApi, '', values).then(_ => {
+      postMethod(cityApi, '', values).then(_ => {
         router.back()
       }).catch(err => {
         showToast({
@@ -85,17 +84,17 @@ const State = () => {
     <MenuDefault 
       firstName={'Início'} firstRoute={'/'} 
       secondName={'Fiscal'} secondRoute={'/fiscal'}
-      thirthName={'Estados'} thirthRoute={'/fiscal/states'}
-      fourthName={'Estado'} fourthRoute={'/fiscal/state'}>
+      thirthName={'Cidades'} thirthRoute={'/fiscal/cities'}
+      fourthName={'Cidade'} fourthRoute={'/fiscal/city'}>
       
       <Formik
-        validationSchema={stateValidationSchema}
+        validationSchema={cityValidationSchema}
         validateOnMount={true}
         initialValues={data}
         onSubmit={values => onSave(values)}>
           {({ handleSubmit, values, errors, touched, setFieldValue }) => {
             return (
-              <FormWithSave percentWidth={100} onSave={handleSubmit} title={'Estado'}>
+              <FormWithSave percentWidth={100} onSave={handleSubmit} title={'Cidade'}>
                 <Row>
                   <InputCheckBox 
                     label='Ativo'
@@ -106,7 +105,7 @@ const State = () => {
                   />
                 </Row>
                 <Row>
-                  <Column flex={0.7}>
+                  <Column flex={1}>
                     <InputText 
                       label={'Nome'} 
                       type={'text'}
@@ -118,30 +117,18 @@ const State = () => {
                       textError={errors?.name?.toString()}
                     />
                   </Column>
-                  <Column flex={0.3}>
-                    <InputText 
-                      label={'UF'} 
-                      type={'text'}
-                      value={values?.uf}
-                      onChange={val => {
-                        setFieldValue('uf', val)
-                      }}
-                      invalid={errors?.uf?.length > 0 && !!touched?.uf}
-                      textError={errors?.uf?.toString()}
-                    />
-                  </Column>
                 </Row>
                 <Row>
                   <InputSelect 
-                    label={'País'} 
+                    label={'Estado'} 
                     // @ts-ignore
-                    value={values?.idcountry?.id || ''}
+                    value={values?.idstate?.id || ''}
                     onChange={val => {
-                      setFieldValue('idcountry', val)
+                      setFieldValue('idstate', val)
                     }}
-                    api={countryApi}
-                    invalid={errors?.idcountry?.length > 0 && !!touched?.idcountry}
-                    textError={errors?.idcountry?.toString()}
+                    api={stateApi}
+                    invalid={errors?.idstate?.length > 0 && !!touched?.idstate}
+                    textError={errors?.idstate?.toString()}
                   />
                 </Row>
               </FormWithSave>
@@ -152,4 +139,4 @@ const State = () => {
   )
 }
 
-export default State
+export default City

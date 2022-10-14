@@ -18,7 +18,7 @@ export const stateValidationSchema = yup.object().shape({
       .required('UF é obrigatório'),
     idcountry: yup
       .string()
-      .required('country é obrigatório'),
+      .required('Pais é obrigatório'),
     active: yup
       .boolean()
       .required()

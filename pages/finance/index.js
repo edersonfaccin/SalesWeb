@@ -7,9 +7,9 @@ const Index = () => {
     return (
         <MenuDefault firstName={'Inicio'} firstRoute={'/'} secondName={'Financeiro'} secondRoute={'/finance'}>
             <SimpleGrid columns={3} spacing={2}>
-                <MenuButtonDashboard label={'Tabela de ICMS'} route={'/finance/icms_table'}/>
-                <MenuButtonDashboard label={'Condição de Pagamento'} route={'/finance/payment_condition'}/>
-                <MenuButtonDashboard label={'Formas de Pagamento'} route={'/finance/payment_method'}/>
+                <MenuButtonDashboard label={'Tabela de ICMS'} route={'/finance/icms_tables'}/>
+                <MenuButtonDashboard label={'Condição de Pagamento'} route={'/finance/payment_conditions'}/>
+                <MenuButtonDashboard label={'Formas de Pagamento'} route={'/finance/payment_methods'}/>
             </SimpleGrid>
         </MenuDefault>
     )
