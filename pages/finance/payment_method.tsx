@@ -3,34 +3,30 @@ import { Formik } from 'formik'
 import { useRouter } from "next/router"
 import { useToast } from '@chakra-ui/react'
 import { Column, FormWithSave, Row } from '../../src/components/utils/Form'
-import { stateValidationSchema, IStateModel } from '../../src/models/IStateModel'
+import { paymentMethodValidationSchema, IPaymentMethodModel } from '../../src/models/IPaymentMethodModel'
 import InputText from '../../src/components/inputs/InputText'
 import useAuthData from '../../src/data/hook/useAuthData'
 import { useEffect, useState } from 'react'
 import SpinnerDefault from '../../src/components/spinner/SpinnerDefault'
 import { getMethod, postMethod, patchMethod } from '../../src/utils/ServiceApi'
-import { countryApi, stateApi } from '../../src/utils/Environment'
+import { paymentMethodApi } from '../../src/utils/Environment'
 import { showToast } from '../../src/utils/Functions'
 import InputCheckBox from '../../src/components/inputs/InputCheckBox'
-import InputSelect from '../../src/components/inputs/InputSelect'
 
-const State = () => {
+const PaymentMethod = () => {
   const router = useRouter()
   const toast = useToast()
   const { user } = useAuthData()
 
-  const [ data, setData ] = useState<IStateModel>()
+  const [ data, setData ] = useState<IPaymentMethodModel>()
   const [ rendering, setRendering ] = useState<boolean>(true)
 
   useEffect(() => {
     if(router.query?.id && user?.iduser){
       setRendering(true)
       
-      getMethod(stateApi, `${router.query?.id}`).then((resp: any) => {
-        setData({
-          ...resp,
-          idcountry: resp?.idcountry?.id
-        })
+      getMethod(paymentMethodApi, `${router.query?.id}`).then((resp: any) => {
+        setData(resp)
 
         setTimeout(() => {
           setRendering(false)
@@ -42,8 +38,6 @@ const State = () => {
       setData({
         ...data,
         active: true,
-        uf: '',
-        idcountry: '',
         idcompany: user?.idcompany,
         name: ''
       })
@@ -56,7 +50,7 @@ const State = () => {
 
   const onSave = (values: any) => {
     if(router.query?.id){
-      patchMethod(stateApi, router.query?.id.toString(), values).then(_ => {
+      patchMethod(paymentMethodApi, router.query?.id.toString(), values).then(_ => {
         router.back()
       }).catch(err => {
         showToast({
@@ -66,7 +60,7 @@ const State = () => {
         })
       })
     }else{
-      postMethod(stateApi, '', values).then(_ => {
+      postMethod(paymentMethodApi, '', values).then(_ => {
         router.back()
       }).catch(err => {
         showToast({
@@ -87,18 +81,18 @@ const State = () => {
   return (
     <MenuDefault 
       firstName={'Início'} firstRoute={'/'} 
-      secondName={'Fiscal'} secondRoute={'/fiscal'}
-      thirthName={'Estados'} thirthRoute={'/fiscal/states'}
-      fourthName={'Estado'} fourthRoute={'/fiscal/state'}>
+      secondName={'Financeiro'} secondRoute={'/finance'}
+      thirthName={'Formas de Pagamentos'} thirthRoute={'/finance/payment_methods'}
+      fourthName={'Forma de Pagamento'} fourthRoute={'/finance/payment_method'}>
       
       <Formik
-        validationSchema={stateValidationSchema}
+        validationSchema={paymentMethodValidationSchema}
         validateOnMount={true}
         initialValues={data}
         onSubmit={values => onSave(values)}>
           {({ handleSubmit, values, errors, touched, setFieldValue }) => {
             return (
-              <FormWithSave percentWidth={100} onSave={handleSubmit} title={'Estado'}>
+              <FormWithSave percentWidth={100} onSave={handleSubmit} title={'País'}>
                 <Row>
                   <InputCheckBox 
                     label='Ativo'
@@ -109,7 +103,7 @@ const State = () => {
                   />
                 </Row>
                 <Row>
-                  <Column flex={0.7}>
+                  <Column flex={1}>
                     <InputText 
                       label={'Nome'} 
                       type={'text'}
@@ -121,31 +115,6 @@ const State = () => {
                       textError={errors?.name?.toString()}
                     />
                   </Column>
-                  <Column flex={0.3}>
-                    <InputText 
-                      label={'UF'} 
-                      type={'text'}
-                      value={values?.uf}
-                      onChange={val => {
-                        setFieldValue('uf', val)
-                      }}
-                      invalid={errors?.uf?.length > 0 && !!touched?.uf}
-                      textError={errors?.uf?.toString()}
-                    />
-                  </Column>
-                </Row>
-                <Row>
-                  <InputSelect 
-                    label={'País'} 
-                    // @ts-ignore
-                    value={values?.idcountry}
-                    onChange={val => {
-                      setFieldValue('idcountry', val)
-                    }}
-                    api={countryApi}
-                    invalid={errors?.idcountry?.length > 0 && !!touched?.idcountry}
-                    textError={errors?.idcountry?.toString()}
-                  />
                 </Row>
               </FormWithSave>
             )
@@ -155,4 +124,4 @@ const State = () => {
   )
 }
 
-export default State
+export default PaymentMethod

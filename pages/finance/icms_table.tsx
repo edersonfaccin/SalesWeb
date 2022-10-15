@@ -26,8 +26,11 @@ const IcmsTable = () => {
       setRendering(true)
       
       getMethod(icmsTableApi, `${router.query?.id}`).then((resp: any) => {
-        setData(resp)
-        console.log(999, resp)
+        setData({
+          ...resp,
+          idstate_origin: resp?.idstate_origin?.id,
+          idstate_destination: resp?.idstate_destination?.id
+        })
 
         setTimeout(() => {
           setRendering(false)

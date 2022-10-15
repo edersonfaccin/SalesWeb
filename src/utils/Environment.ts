@@ -10,3 +10,4 @@ export const countryApi = `${url}/country`
 export const stateApi = `${url}/state`
 export const cityApi = `${url}/city`
 export const icmsTableApi = `${url}/icms_table`
+export const paymentMethodApi = `${url}/payment_method`

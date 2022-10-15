@@ -27,7 +27,10 @@ const City = () => {
       setRendering(true)
       
       getMethod(cityApi, `${router.query?.id}`).then((resp: any) => {
-        setData(resp)
+        setData({
+          ...resp,
+          idstate: resp?.idstate?.id,
+        })
 
         setTimeout(() => {
           setRendering(false)
@@ -122,7 +125,7 @@ const City = () => {
                   <InputSelect 
                     label={'Estado'} 
                     // @ts-ignore
-                    value={values?.idstate?.id || ''}
+                    value={values?.idstate}
                     onChange={val => {
                       setFieldValue('idstate', val)
                     }}
