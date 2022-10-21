@@ -1,19 +1,15 @@
 import MenuDefault from '../../src/components/utils/MenuDefault'
 import TablePagination from '../../src/components/utils/TablePagination'
 import { Column } from '../../src/types/TableList';
-import { unitApi } from '../../src/utils/Environment';
+import { paymentConditionApi } from '../../src/utils/Environment';
 
-const Units = () => {
+const PaymentConditions = () => {
 
   const tableColumns: Column[] = [
     {
       Header: 'Nome',
       accessor: 'name' as const,
       nameField: 'name'
-    }, {
-      Header: 'Sigla',
-      accessor: 'initials' as const,
-      nameField: 'initials'
     }, {
       Header: 'Ativo',
       accessor: 'active' as const,
@@ -28,18 +24,18 @@ const Units = () => {
   return (
     <MenuDefault 
       firstName={'Início'} firstRoute={'/'} 
-      secondName={'Estoque'} secondRoute={'/stock'}
-      thirthName={'Unidades'} thirthRoute={'/stock/units'}>
+      secondName={'Financeiro'} secondRoute={'/finance'}
+      thirthName={'Condição de Pagamentos'} thirthRoute={'/fiscal/payment_conditions'}>
       <TablePagination 
-        routeNew={'/stock/unit'}
+        routeNew={'/finance/payment_condition'}
         tableColumns={tableColumns}
-        title={'Lista de unidades'}
+        title={'Lista de condições de pagamento'}
         removeButton={true}
         editButton={true}
-        api={unitApi}
+        api={paymentConditionApi}
       />
     </MenuDefault>
   )
 }
 
-export default Units
+export default PaymentConditions

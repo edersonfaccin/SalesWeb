@@ -1,9 +1,9 @@
 import MenuDefault from '../../src/components/utils/MenuDefault'
 import TablePagination from '../../src/components/utils/TablePagination'
 import { Column } from '../../src/types/TableList';
-import { unitApi } from '../../src/utils/Environment';
+import { productApi } from '../../src/utils/Environment';
 
-const Units = () => {
+const Products = () => {
 
   const tableColumns: Column[] = [
     {
@@ -11,9 +11,13 @@ const Units = () => {
       accessor: 'name' as const,
       nameField: 'name'
     }, {
-      Header: 'Sigla',
-      accessor: 'initials' as const,
-      nameField: 'initials'
+      Header: 'Descrição',
+      accessor: 'description' as const,
+      nameField: 'description'
+    }, {
+      Header: 'Referência',
+      accessor: 'reference' as const,
+      nameField: 'reference'
     }, {
       Header: 'Ativo',
       accessor: 'active' as const,
@@ -29,17 +33,17 @@ const Units = () => {
     <MenuDefault 
       firstName={'Início'} firstRoute={'/'} 
       secondName={'Estoque'} secondRoute={'/stock'}
-      thirthName={'Unidades'} thirthRoute={'/stock/units'}>
+      thirthName={'Produtos'} thirthRoute={'/stock/products'}>
       <TablePagination 
-        routeNew={'/stock/unit'}
+        routeNew={'/stock/product'}
         tableColumns={tableColumns}
-        title={'Lista de unidades'}
+        title={'Lista de produtos'}
         removeButton={true}
         editButton={true}
-        api={unitApi}
+        api={productApi}
       />
     </MenuDefault>
   )
 }
 
-export default Units
+export default Products
