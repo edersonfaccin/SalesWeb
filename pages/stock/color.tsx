@@ -28,9 +28,7 @@ const Color = () => {
       getMethod(colorApi, `${router.query?.id}`).then((resp: any) => {
         setData(resp)
 
-        setTimeout(() => {
-          setRendering(false)
-        }, 200);
+        setRendering(false)
       })
     }else{
       setRendering(true)
@@ -42,9 +40,7 @@ const Color = () => {
         name: ''
       })
 
-      setTimeout(() => {
-        setRendering(false)
-      }, 200)
+      setRendering(false)
     }
   }, [router.query?.id && user?.iduser])
 
@@ -89,6 +85,7 @@ const Color = () => {
         validationSchema={colorValidationSchema}
         validateOnMount={true}
         initialValues={data}
+        enableReinitialize
         onSubmit={values => onSave(values)}>
           {({ handleSubmit, values, errors, touched, setFieldValue }) => {
             return (

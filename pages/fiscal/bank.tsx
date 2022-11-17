@@ -28,9 +28,7 @@ const Bank = () => {
       getMethod(bankApi, `${router.query?.id}`).then((resp: any) => {
         setData(resp)
 
-        setTimeout(() => {
-          setRendering(false)
-        }, 200);
+        setRendering(false)
       })
     }else{
       setRendering(true)
@@ -43,9 +41,7 @@ const Bank = () => {
         name: ''
       })
 
-      setTimeout(() => {
-        setRendering(false)
-      }, 200)
+      setRendering(false)
     }
   }, [router.query?.id && user?.iduser])
 
@@ -90,6 +86,7 @@ const Bank = () => {
         validationSchema={bankValidationSchema}
         validateOnMount={true}
         initialValues={data}
+        enableReinitialize
         onSubmit={values => onSave(values)}>
           {({ handleSubmit, values, errors, touched, setFieldValue }) => {
             return (

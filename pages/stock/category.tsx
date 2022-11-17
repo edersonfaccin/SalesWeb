@@ -28,9 +28,7 @@ const Category = () => {
       getMethod(categoryApi, `${router.query?.id}`).then((resp: any) => {
         setData(resp)
 
-        setTimeout(() => {
-          setRendering(false)
-        }, 1000);
+        setRendering(false)
       })
     }else{
       setRendering(true)
@@ -42,9 +40,7 @@ const Category = () => {
         name: ''
       })
 
-      setTimeout(() => {
-        setRendering(false)
-      }, 1000)
+      setRendering(false)
     }
   }, [router.query?.id && user?.iduser])
 
@@ -89,6 +85,7 @@ const Category = () => {
         validationSchema={categoryValidationSchema}
         validateOnMount={true}
         initialValues={data}
+        enableReinitialize
         onSubmit={values => onSave(values)}>
           {({ handleSubmit, values, errors, touched, setFieldValue }) => {
             return (

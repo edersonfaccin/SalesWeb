@@ -32,9 +32,7 @@ const State = () => {
           idcountry: resp?.idcountry?.id
         })
 
-        setTimeout(() => {
-          setRendering(false)
-        }, 200);
+        setRendering(false)
       })
     }else{
       setRendering(true)
@@ -48,9 +46,7 @@ const State = () => {
         name: ''
       })
 
-      setTimeout(() => {
-        setRendering(false)
-      }, 200)
+      setRendering(false)
     }
   }, [router.query?.id && user?.iduser])
 
@@ -95,6 +91,7 @@ const State = () => {
         validationSchema={stateValidationSchema}
         validateOnMount={true}
         initialValues={data}
+        enableReinitialize
         onSubmit={values => onSave(values)}>
           {({ handleSubmit, values, errors, touched, setFieldValue }) => {
             return (

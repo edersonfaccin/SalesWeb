@@ -34,9 +34,7 @@ const Product = () => {
           idunit: resp?.idunit?.id
         })
 
-        setTimeout(() => {
-          setRendering(false)
-        }, 200);
+        setRendering(false)
       })
     }else{
       setRendering(true)
@@ -58,9 +56,7 @@ const Product = () => {
         length: 0
       })
 
-      setTimeout(() => {
-        setRendering(false)
-      }, 200)
+      setRendering(false)
     }
   }, [router.query?.id && user?.iduser])
 
@@ -105,6 +101,7 @@ const Product = () => {
         validationSchema={productValidationSchema}
         validateOnMount={true}
         initialValues={data}
+        enableReinitialize
         onSubmit={values => onSave(values)}>
           {({ handleSubmit, values, errors, touched, setFieldValue }) => {
             return (
